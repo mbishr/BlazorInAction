@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.IO;
+using System.Threading;
 
 namespace EBikesShop.Ui.Web.Tests
 {
@@ -18,7 +19,7 @@ namespace EBikesShop.Ui.Web.Tests
 
         internal static void OpenRetailCalculatorPage()
         {
-            _driver.Url = BaseUrl + "/counter";
+            _driver.Url = BaseUrl + "/retailcalculator";
         }
 
         internal static void CloseBrowser()

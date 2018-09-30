@@ -1,0 +1,39 @@
+﻿@page "/retailcalculator"
+
+<h1>Retail calculator</h1>
+
+<p>
+    Number of items:<br />
+    <input type="number" step="any" bind="@_items" id="retailCalculator_numberOfItems_input" />
+</p>
+
+<p>
+    Price per item:<br />
+    <input type="number" step="any" bind="@_pricePerItem" id="retailCalculator_pricePerItem_input" />
+</p>
+
+<p>
+    State code:<br />
+    <input type="number" step="any" bind="@_stateCode" id="retailCalculator_stateCode_input" />
+</p>
+
+<p>
+    Total price: 
+    <div id="retailCalculator_totalPrice_text">@_totalPrice</div>
+</p>
+
+<button class="btn btn-primary" onclick="@CalculateTotalPrice" id="retailCalculator_calculateTotalPrice_button">Calculate total price</button>
+
+@functions {
+    private int _items = 1;
+    private decimal _pricePerItem = 0.0m;
+    private string _stateCode = "UT";
+    private decimal _utTaxRate = 6.85m;
+    private decimal _totalPrice = 0.0m;
+
+    void CalculateTotalPrice()
+    {
+        var price = _items * _pricePerItem;
+        _totalPrice = price + (100 * _utTaxRate) / price;
+    }
+}
