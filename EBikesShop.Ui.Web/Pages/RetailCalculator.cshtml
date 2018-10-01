@@ -65,6 +65,16 @@
     private void CalculateTotalPrice()
     {
         var price = _items * _pricePerItem;
+        var discountRate = GetDiscountRate(price);
+
+        var discount = price * discountRate / 100m;
+        price = price - discount;
+        var tax = price * _selectedStateTaxRate / 100m;
+        _totalPrice = price + tax;
+    }
+
+    private decimal GetDiscountRate(decimal price)
+    {
         var discountRate = 0m;
         if (price >= 50000m)
         {
@@ -86,11 +96,7 @@
         {
             discountRate = 3m;
         }
-
-        var discount = price * discountRate / 100m;
-        price = price - discount;
-        var tax = (price * _selectedStateTaxRate) / 100m;
-        _totalPrice = price + tax;
+        return discountRate;
     }
 
     public class StateTax
