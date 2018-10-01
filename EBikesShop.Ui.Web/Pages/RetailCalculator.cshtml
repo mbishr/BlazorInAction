@@ -53,9 +53,13 @@
         await Task.Delay(1000); // simulate API call
 
         return new List<StateTax>
-    {
-        new StateTax{ Code = "UT", TaxRate = 6.85m },
-    };
+        {
+            new StateTax{ Code = "UT", TaxRate = 6.85m },
+            new StateTax{ Code = "NV", TaxRate = 8.00m },
+            new StateTax{ Code = "TX", TaxRate = 6.25m },
+            new StateTax{ Code = "AL", TaxRate = 4.00m },
+            new StateTax{ Code = "CA", TaxRate = 8.25m },
+        };
     }
 
     private void CalculateTotalPrice()

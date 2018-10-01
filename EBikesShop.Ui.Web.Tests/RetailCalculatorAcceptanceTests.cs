@@ -21,14 +21,19 @@ namespace EBikesShop.Ui.Web.Tests
             ApplicationRunner.CloseBrowser();
         }
 
-        [Test]
-        public void Can_calculate_total_price_for_UT_without_discount()
+        [TestCase(2, 50.0, "UT", 106.85)]
+        [TestCase(11, 2.5, "NV", 29.7)]
+        [TestCase(301, 3.12, "TX", 997.815)] 
+        [TestCase(99, 1.9, "AL", 195.624)]
+        [TestCase(45, 19.99, "CA", 973.762875)]
+        public void Can_calculate_total_price_without_discount(
+            int items, decimal pricePerItem, string stateCode, decimal expectedTotalPrice)
         {
-            ApplicationRunner.SetRetailCalculatorInput(2, 50.0m, "UT");
+            ApplicationRunner.SetRetailCalculatorInput(items, pricePerItem, stateCode);
 
             ApplicationRunner.ClickRetailCalculatorCalculateTotalPrice();
 
-            Assert.AreEqual(106.85m, ApplicationRunner.GetRetailCalculatorTotalPrice());
+            Assert.AreEqual(expectedTotalPrice, ApplicationRunner.GetRetailCalculatorTotalPrice());
         }
     }
 }
