@@ -2,38 +2,73 @@
 
 <h1>Retail calculator</h1>
 
-<p>
-    Number of items:<br />
-    <input type="number" step="any" bind="@_items" id="retailCalculator_numberOfItems_input" />
-</p>
+<div class="form-group">
+    <p>
+        Number of items:<br />
+        <input class="form-control" type="number" step="any" bind="@_items" id="retailCalculator_numberOfItems_input" />
+    </p>
 
-<p>
-    Price per item:<br />
-    <input type="number" step="any" bind="@_pricePerItem" id="retailCalculator_pricePerItem_input" />
-</p>
+    <p>
+        Price per item:<br />
+        <input class="form-control" type="number" step="any" bind="@_pricePerItem" id="retailCalculator_pricePerItem_input" />
+    </p>
 
-<p>
-    State code:<br />
-    <input type="number" step="any" bind="@_stateCode" id="retailCalculator_stateCode_input" />
-</p>
+    <p>
+        State code:<br />
+        <select class="form-control" bind="@_selectedStateTaxRate" id="retailCalculator_state_select">
+            <option value="0.0">none</option>
+            @foreach (var state in _states)
+            {
+                <option value=@state.TaxRate>@state.Code</option>
+            }
+        </select>
+    </p>
 
-<p>
-    Total price: 
-    <div id="retailCalculator_totalPrice_text">@_totalPrice</div>
-</p>
+    <p>
+        Total price:
+        <div class="form-control" id="retailCalculator_totalPrice_text">@_totalPrice</div>
+    </p>
 
-<button class="btn btn-primary" onclick="@CalculateTotalPrice" id="retailCalculator_calculateTotalPrice_button">Calculate total price</button>
+    <button class="btn btn-primary" onclick="@CalculateTotalPrice" id="retailCalculator_calculateTotalPrice_button">Calculate total price</button>
+</div>
 
-@functions {
-    private int _items = 1;
-    private decimal _pricePerItem = 0.0m;
-    private string _stateCode = "UT";
-    private decimal _utTaxRate = 6.85m;
+@functions 
+{
     private decimal _totalPrice = 0.0m;
 
-    void CalculateTotalPrice()
+    private int _items = 1;
+    private decimal _pricePerItem = 0.0m;
+
+    private decimal _selectedStateTaxRate;
+    private List<StateTax> _states = new List<StateTax>();
+
+    protected override async Task OnInitAsync()
+    {
+        _states = await GetStatesAsync();
+        _selectedStateTaxRate = _states.Single(x => string.Equals("UT", x.Code, StringComparison.OrdinalIgnoreCase)).TaxRate;
+    }
+
+    private async Task<List<StateTax>> GetStatesAsync()
+    {
+        await Task.Delay(1000); // simulate API call
+
+        return new List<StateTax>
+    {
+        new StateTax{ Code = "UT", TaxRate = 6.85m },
+    };
+    }
+
+    private void CalculateTotalPrice()
     {
         var price = _items * _pricePerItem;
-        _totalPrice = price + (100 * _utTaxRate) / price;
+        var tax = (price * _selectedStateTaxRate) / 100m;
+
+        _totalPrice = price + tax;
+    }
+
+    public class StateTax
+    {
+        public string Code { get; set; }
+        public decimal TaxRate { get; set; }
     }
 }

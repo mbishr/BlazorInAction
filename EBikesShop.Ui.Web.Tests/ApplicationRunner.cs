@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System.IO;
-using System.Threading;
 
 namespace EBikesShop.Ui.Web.Tests
 {
@@ -31,7 +31,7 @@ namespace EBikesShop.Ui.Web.Tests
         {
             SetRetailCalculatorItemsInput(items.ToString());
             SetRetailCalculatorPricePerItemInput(pricePerItem.ToString());
-            SetRetailCalculatorStateCodeInput(stateCode);
+            SelectRetailCalculatorStateCode(stateCode);
         }
 
         private static void SetRetailCalculatorItemsInput(string items)
@@ -48,11 +48,11 @@ namespace EBikesShop.Ui.Web.Tests
             element.SendKeys(pricePerItem);
         }
 
-        private static void SetRetailCalculatorStateCodeInput(string stateCode)
+        private static void SelectRetailCalculatorStateCode(string stateCode)
         {
-            IWebElement element = _driver.FindElement(By.Id("retailCalculator_stateCode_input"));
-            element.Clear();
-            element.SendKeys(stateCode);
+            IWebElement element = _driver.FindElement(By.Id("retailCalculator_state_select"));
+            SelectElement select = new SelectElement(element);
+            select.SelectByText(stateCode);
         }
 
         internal static void ClickRetailCalculatorCalculateTotalPrice()
