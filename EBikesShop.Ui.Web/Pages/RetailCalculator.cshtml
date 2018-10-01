@@ -34,10 +34,10 @@
 
 @functions 
 {
-    private decimal _totalPrice = 0.0m;
+    private decimal _totalPrice = 0m;
 
     private int _items = 1;
-    private decimal _pricePerItem = 0.0m;
+    private decimal _pricePerItem = 0m;
 
     private decimal _selectedStateTaxRate;
     private List<StateTax> _states = new List<StateTax>();
@@ -65,8 +65,31 @@
     private void CalculateTotalPrice()
     {
         var price = _items * _pricePerItem;
-        var tax = (price * _selectedStateTaxRate) / 100m;
+        var discountRate = 0m;
+        if (price >= 50000m)
+        {
+            discountRate = 15m;
+        }
+        else if (price >= 10000m)
+        {
+            discountRate = 10m;
+        }
+        else if (price >= 7000m)
+        {
+            discountRate = 7m;
+        }
+        else if (price >= 5000m)
+        {
+            discountRate = 5m;
+        }
+        else if (price >= 1000m)
+        {
+            discountRate = 3m;
+        }
 
+        var discount = price * discountRate / 100m;
+        price = price - discount;
+        var tax = (price * _selectedStateTaxRate) / 100m;
         _totalPrice = price + tax;
     }
 
