@@ -1,0 +1,45 @@
+﻿@page "/statetaxes"
+
+@using EBikesShop.Ui.Web.Apis
+@using EBikesShop.Shared.Taxes
+
+@inject TaxesApi _api
+
+<h1>Taxes</h1>
+
+@if (_taxes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table" id="stateTaxes_table">
+        <thead>
+            <tr>
+                <th>State code</th>
+                <th>State name</th>
+                <th>Tax rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tax in _taxes)
+            {
+                <tr>
+                    <td>@tax.StateCode</td>
+                    <td>@tax.StateName</td>
+                    <td>@tax.TaxRate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@functions {
+    IList<StateTaxDto> _taxes;
+
+    protected override async Task OnInitAsync()
+    {
+        _taxes = await _api.GetStateTaxesAsync();
+    }
+}
+

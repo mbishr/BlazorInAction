@@ -1,0 +1,70 @@
+﻿@page "/retailcalculator"
+
+@using EBikesShop.Ui.Web.Apis
+@using EBikesShop.Ui.Web.Services
+@using EBikesShop.Shared.Taxes
+
+@inject TaxesApi _api
+@inject RetailCalculator _retailCalculator
+
+<h1>Retail calculator</h1>
+
+@if (!_taxes.Any())
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="form-group">
+        <p>
+            Number of items:<br />
+            <input class="form-control" type="number" step="any" bind="@_items" id="retailCalculator_numberOfItems_input" />
+        </p>
+
+        <p>
+            Price per item:<br />
+            <input class="form-control" type="number" step="any" bind="@_pricePerItem" id="retailCalculator_pricePerItem_input" />
+        </p>
+
+        <p>
+            State code:<br />
+            <select class="form-control" bind="@_selectedStateTaxRate" id="retailCalculator_state_select">
+                <option value="0.0">none</option>
+                @foreach (var state in _taxes)
+                {
+                    <option value=@state.TaxRate>@state.StateCode</option>
+                }
+            </select>
+        </p>
+
+        <p>
+            Total price:
+            <div class="form-control" id="retailCalculator_totalPrice_text">@_totalPrice</div>
+        </p>
+
+        <button class="btn btn-primary" onclick="@CalculateTotalPrice" id="retailCalculator_calculateTotalPrice_button">Calculate total price</button>
+    </div>
+}
+
+@functions
+{
+    private decimal _totalPrice = 0m;
+
+    private int _items = 1;
+    private decimal _pricePerItem = 0m;
+
+    private decimal _selectedStateTaxRate;
+    private IList<RetailTaxDto> _taxes = new List<RetailTaxDto>();
+
+    protected override async Task OnInitAsync()
+    {
+        _taxes = await _api.GetRetailTaxesAsync();
+        _selectedStateTaxRate = _taxes.Single(x =>
+            string.Equals("UT", x.StateCode, StringComparison.OrdinalIgnoreCase)).TaxRate;
+    }
+
+    private void CalculateTotalPrice()
+    {
+        _totalPrice = _retailCalculator.CalculateTotalPrice(_items, _pricePerItem, _selectedStateTaxRate);
+    }
+}
