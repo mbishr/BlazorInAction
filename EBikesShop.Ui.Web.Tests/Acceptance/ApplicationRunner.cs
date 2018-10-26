@@ -3,7 +3,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.IO;
 
-namespace EBikesShop.Ui.Web.Tests
+namespace EBikesShop.Ui.Web.Tests.Acceptance
 {
     internal class ApplicationRunner
     {

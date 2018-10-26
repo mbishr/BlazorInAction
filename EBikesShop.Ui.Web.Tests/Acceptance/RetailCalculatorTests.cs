@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using System.Threading;
 
-namespace EBikesShop.Ui.Web.Tests
+namespace EBikesShop.Ui.Web.Tests.Acceptance
 {
     [TestFixture]
-    public class RetailCalculatorAcceptanceTests
+    public class RetailCalculatorTests
     {
         [OneTimeSetUp]
         public void OpenAppInBrowser()

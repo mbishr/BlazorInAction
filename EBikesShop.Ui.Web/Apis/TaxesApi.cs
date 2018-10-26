@@ -1,37 +1,29 @@
 ﻿using EBikesShop.Shared.Taxes;
+using Flurl;
+using Flurl.Http;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EBikesShop.Ui.Web.Apis
 {
+    // Linker needs to be disabled for the moment in order to be able to desertize json with NewtonJson/Flurl
+    // https://github.com/aspnet/Blazor/issues/370
     public class TaxesApi
     {
-        public async Task<List<StateTaxDto>> GetStateTaxesAsync()
-        {
-            await Task.Delay(1000); // simulate API call _httpClient.GetAsync(...);
+        public string ApiBaseUrl { get; } = "http://localhost:64850/api";
 
-            return new List<StateTaxDto>
-            {
-                new StateTaxDto{ StateCode = "UT", StateName="Utah", TaxRate = 6.85m },
-                new StateTaxDto{ StateCode = "NV", StateName="Nevada", TaxRate = 8.00m },
-                new StateTaxDto{ StateCode = "TX", StateName="Texaas", TaxRate = 6.25m },
-                new StateTaxDto{ StateCode = "AL", StateName="Alabama", TaxRate = 4.00m },
-                new StateTaxDto{ StateCode = "CA", StateName="California", TaxRate = 8.25m },
-            };
+        public async Task<IList<StateTaxDto>> GetStateTaxesAsync()
+        {
+            return await ApiBaseUrl
+                .AppendPathSegment("taxes")
+                .WithHeader("Accept", "application/json")
+                .GetJsonAsync<List<StateTaxDto>>();
         }
 
-        public async Task<List<RetailTaxDto>> GetRetailTaxesAsync()
+        public Task CreateStateTaxAsync(StateTaxDto stateTax)
         {
-            await Task.Delay(500); // simulate API call _httpClient.GetAsync(...);
-
-            return new List<RetailTaxDto>
-            {
-                new RetailTaxDto{ StateCode = "UT", TaxRate = 6.85m },
-                new RetailTaxDto{ StateCode = "NV", TaxRate = 8.00m },
-                new RetailTaxDto{ StateCode = "TX", TaxRate = 6.25m },
-                new RetailTaxDto{ StateCode = "AL", TaxRate = 4.00m },
-                new RetailTaxDto{ StateCode = "CA", TaxRate = 8.25m },
-            };
+            throw new NotImplementedException();
         }
     }
 }

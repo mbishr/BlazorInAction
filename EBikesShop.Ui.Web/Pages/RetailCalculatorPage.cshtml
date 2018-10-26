@@ -54,11 +54,11 @@ else
     private decimal _pricePerItem = 0m;
 
     private decimal _selectedStateTaxRate;
-    private IList<RetailTaxDto> _taxes = new List<RetailTaxDto>();
+    private IList<StateTaxDto> _taxes = new List<StateTaxDto>();
 
     protected override async Task OnInitAsync()
     {
-        _taxes = await _api.GetRetailTaxesAsync();
+        _taxes = await _api.GetStateTaxesAsync();
         _selectedStateTaxRate = _taxes.Single(x =>
             string.Equals("UT", x.StateCode, StringComparison.OrdinalIgnoreCase)).TaxRate;
     }
