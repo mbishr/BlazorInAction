@@ -33,13 +33,11 @@ else
         </tbody>
     </table>
 }
-
 @functions {
-    IList<StateTaxDto> _taxes;
+IList<StateTaxDto> _taxes;
 
-    protected override async Task OnInitAsync()
-    {
-        _taxes = await _api.GetStateTaxesAsync();
-    }
+protected override async Task OnInitAsync()
+{
+    _taxes = await _api.GetStateTaxesAsync();
 }
-
+}

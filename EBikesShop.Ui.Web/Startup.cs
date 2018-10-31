@@ -1,3 +1,5 @@
+using System.Net.Http;
+using EBikesShop.Shared;
 using EBikesShop.Ui.Web.Apis;
 using EBikesShop.Ui.Web.Services;
 using Flurl.Http;
@@ -5,7 +7,6 @@ using Flurl.Http.Configuration;
 using Microsoft.AspNetCore.Blazor.Browser.Http;
 using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
 
 namespace EBikesShop.Ui.Web
 {
@@ -13,6 +14,7 @@ namespace EBikesShop.Ui.Web
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<AppSettings>();
             services.AddSingleton<TaxesApi>();
             services.AddSingleton<RetailCalculator>();
         }
@@ -21,7 +23,7 @@ namespace EBikesShop.Ui.Web
         {
             app.AddComponent<App>("app");
 
-            // Sets Blazor's message handler into Flurl 
+            // Sets Blazor's message handler into Flurl, this fixes a Blazor linker problem 
             // https://stackoverflow.com/questions/52522004/blazor-0-6-0-wipes-flurl-compatibility
             FlurlHttp.Configure(settings =>
             {

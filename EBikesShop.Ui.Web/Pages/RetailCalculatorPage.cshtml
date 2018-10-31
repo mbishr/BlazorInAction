@@ -20,12 +20,10 @@ else
             Number of items:<br />
             <input class="form-control" type="number" step="any" bind="@_items" id="retailCalculator_numberOfItems_input" />
         </p>
-
         <p>
             Price per item:<br />
             <input class="form-control" type="number" step="any" bind="@_pricePerItem" id="retailCalculator_pricePerItem_input" />
         </p>
-
         <p>
             State code:<br />
             <select class="form-control" bind="@_selectedStateTaxRate" id="retailCalculator_state_select">
@@ -36,35 +34,32 @@ else
                 }
             </select>
         </p>
-
         <p>
             Total price:
             <div class="form-control" id="retailCalculator_totalPrice_text">@_totalPrice</div>
         </p>
-
         <button class="btn btn-primary" onclick="@CalculateTotalPrice" id="retailCalculator_calculateTotalPrice_button">Calculate total price</button>
     </div>
 }
-
 @functions
 {
-    private decimal _totalPrice = 0m;
+private decimal _totalPrice = 0m;
 
-    private int _items = 1;
-    private decimal _pricePerItem = 0m;
+private int _items = 1;
+private decimal _pricePerItem = 0m;
 
-    private decimal _selectedStateTaxRate;
-    private IList<StateTaxDto> _taxes = new List<StateTaxDto>();
+private decimal _selectedStateTaxRate;
+private IList<StateTaxDto> _taxes = new List<StateTaxDto>();
 
-    protected override async Task OnInitAsync()
-    {
-        _taxes = await _api.GetStateTaxesAsync();
-        _selectedStateTaxRate = _taxes.Single(x =>
-            string.Equals("UT", x.StateCode, StringComparison.OrdinalIgnoreCase)).TaxRate;
-    }
+protected override async Task OnInitAsync()
+{
+    _taxes = await _api.GetStateTaxesAsync();
+    _selectedStateTaxRate = _taxes.Single(x =>
+        string.Equals("UT", x.StateCode, StringComparison.OrdinalIgnoreCase)).TaxRate;
+}
 
-    private void CalculateTotalPrice()
-    {
-        _totalPrice = _retailCalculator.CalculateTotalPrice(_items, _pricePerItem, _selectedStateTaxRate);
-    }
+private void CalculateTotalPrice()
+{
+    _totalPrice = _retailCalculator.CalculateTotalPrice(_items, _pricePerItem, _selectedStateTaxRate);
+}
 }

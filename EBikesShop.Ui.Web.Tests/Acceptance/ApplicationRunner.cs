@@ -1,25 +1,34 @@
-﻿using OpenQA.Selenium;
+﻿using EBikesShop.Shared;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System;
 using System.IO;
+using System.Threading;
 
 namespace EBikesShop.Ui.Web.Tests.Acceptance
 {
     internal class ApplicationRunner
     {
-        private static readonly string BaseUrl = "http://localhost:50655";
+        private static readonly AppSettings _settings = new AppSettings();
 
         private static IWebDriver _driver;
 
         internal static void StartBrowser()
         {
-            var baseDir = Path.GetDirectoryName((typeof(ApplicationRunner)).Assembly.Location);
+            // Azure DevOps Hosted VS2017 environment has this variable set
+            var baseDir = Environment.GetEnvironmentVariable("ChromeWebDriver");
+            if (string.IsNullOrWhiteSpace(baseDir))
+            {
+                baseDir = Path.GetDirectoryName(typeof(ApplicationRunner).Assembly.Location);
+            }
+
             _driver = new ChromeDriver(baseDir);
         }
 
         internal static void OpenRetailCalculatorPage()
         {
-            _driver.Url = BaseUrl + "/retailcalculator";
+            _driver.Url = $"{_settings.BaseUrl}/retailcalculator";
         }
 
         internal static void CloseBrowser()
@@ -36,6 +45,7 @@ namespace EBikesShop.Ui.Web.Tests.Acceptance
 
         private static void SetRetailCalculatorItemsInput(string items)
         {
+            Thread.Sleep(1000);
             IWebElement element = _driver.FindElement(By.Id("retailCalculator_numberOfItems_input"));
             element.Clear();
             element.SendKeys(items);

@@ -12,7 +12,7 @@ namespace EBikesShop.Ui.Web.Tests.Acceptance
             ApplicationRunner.StartBrowser();
             ApplicationRunner.OpenRetailCalculatorPage();
 
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
         }
 
         [OneTimeTearDown]

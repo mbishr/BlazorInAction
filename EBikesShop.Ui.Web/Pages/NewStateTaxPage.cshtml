@@ -41,21 +41,21 @@
 </div>
 
 @functions {
-    private StateTaxDto _stateTax = new StateTaxDto();
+private StateTaxDto _stateTax = new StateTaxDto();
 
-    private async Task AddStateTaxAsync()
-    {
-        await _api.CreateStateTaxAsync(_stateTax);
-        Refresh();
-    }
+private async Task AddStateTaxAsync()
+{
+    await _api.CreateStateTaxAsync(_stateTax);
+    Refresh();
+}
 
-    private void Cancel()
-    {
-        Refresh();
-    }
+private void Cancel()
+{
+    Refresh();
+}
 
-    private void Refresh()
-    {
-        _uriHelper.NavigateTo("/fetchemployee");
-    }
+private void Refresh()
+{
+    _uriHelper.NavigateTo("/fetchemployee");
+}
 }

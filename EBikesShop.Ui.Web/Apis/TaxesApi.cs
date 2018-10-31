@@ -1,4 +1,5 @@
-﻿using EBikesShop.Shared.Taxes;
+﻿using EBikesShop.Shared;
+using EBikesShop.Shared.Taxes;
 using Flurl;
 using Flurl.Http;
 using System;
@@ -11,11 +12,16 @@ namespace EBikesShop.Ui.Web.Apis
     // https://github.com/aspnet/Blazor/issues/370
     public class TaxesApi
     {
-        public string ApiBaseUrl { get; } = "http://localhost:64850/api";
+        private AppSettings _settings;
+
+        public TaxesApi(AppSettings settings)
+        {
+            _settings = settings;
+        }
 
         public async Task<IList<StateTaxDto>> GetStateTaxesAsync()
         {
-            return await ApiBaseUrl
+            return await _settings.ApiBaseUrl
                 .AppendPathSegment("taxes")
                 .WithHeader("Accept", "application/json")
                 .GetJsonAsync<List<StateTaxDto>>();
