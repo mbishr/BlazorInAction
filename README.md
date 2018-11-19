@@ -2,9 +2,15 @@
 
 [![Build Status](https://dev.azure.com/costinmorariu/BlazorInAction/_apis/build/status/stonemonkey.BlazorInAction)](https://dev.azure.com/costinmorariu/BlazorInAction/_build/latest?definitionId=5)
 
-This is a sample application I used to poke into [Blazor](https://blazor.net/) and catch up with [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/). As expected, basic CRUD with Blazor felt straight forward. On the other hand, I spend some time digging into [Azure DevOps](https://azure.microsoft.com/en-us/services/devops) in order to setup a decent cloud CI/CD pipeline for this project. [Scott Hanselman](https://www.hanselman.com/) has a nice blog post on [setting up a build/deploy/test pipeline for an ASP.NET Core applcation in one hour](https://www.hanselman.com/blog/AzureDevOpsContinuousBuildDeployTestWithASPNETCore22PreviewInOneHour.aspx). My goal here was to setup a similar pipeline but using [Docker](https://www.docker.com/) and add the stage Scott didn't figgure out how to solve for running my Selenium tests.
+This is a sample application I used to poke into [Blazor](https://blazor.net/) and to catch up with [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/). 
 
-To run the code locally (on Windows or Mac), clone the [GitHub repository](https://github.com/stonemonkey/BlazorInAction), build and debug in [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) (15.8.0 or higher). By default it's set to start in IISExpress.
+As expected, basic CRUD with Blazor felt straight forward. 
+
+On the other hand, I spend some time digging into [Azure DevOps](https://azure.microsoft.com/en-us/services/devops) in order to setup a decent cloud CI/CD pipeline for this project. 
+
+[Scott Hanselman](https://www.hanselman.com/) has a nice blog post on [setting up a build/deploy/test pipeline for an ASP.NET Core applcation in one hour](https://www.hanselman.com/blog/AzureDevOpsContinuousBuildDeployTestWithASPNETCore22PreviewInOneHour.aspx). My goal here was to setup a similar pipeline but using [Docker](https://www.docker.com/) and add the stage Scott didn't figgure out how to solve for running my Selenium tests.
+
+To run the code locally (Windows or Mac), clone the [GitHub repository](https://github.com/stonemonkey/BlazorInAction), build and debug in [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) (15.8.0 or higher). By default it's set to start in IISExpress.
 
 ## Goal #1:
 Build a simple application with [Blazor](https://blazor.net/). At the time of writing, [Blazor](https://github.com/aspnet/Blazor) is an experimental .NET web framework (not ready yet to be used in production applications). Still, it looks very promissing, reason why I want to give it a try. The cool part with this framework is that it runs in the browser with [WebAssembly](https://webassembly.org/) and uses C#/[Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-2.1) to render HTML. Visual Studio Project templates for Blazor includes [Bootstrap 3](https://getbootstrap.com/docs/3.3/getting-started/).
@@ -37,6 +43,7 @@ From [Elephant Carpaccio exercise](http://alistair.cockburn.us/Elephant+Carpacci
 ### Outcome
 
 The application is accessible [here](https://ebikesshopserver.azurewebsites.net/).
+
 ![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/ebikeshop_retailcalculatorpage.png "E-BikesShop Retail calculator")
 
 [BlazorInAction GitHub repository](https://github.com/stonemonkey/BlazorInAction) contains the sources for a simple SOA implementation of the [Elephant Carpaccio exercise](http://alistair.cockburn.us/Elephant+Carpaccio+exercise) with [Blazor](https://blazor.net/) and [ASP.NET Web API](https://www.asp.net/web-api).
