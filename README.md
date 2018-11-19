@@ -2,11 +2,9 @@
 
 [![Build Status](https://dev.azure.com/costinmorariu/BlazorInAction/_apis/build/status/stonemonkey.BlazorInAction)](https://dev.azure.com/costinmorariu/BlazorInAction/_build/latest?definitionId=5)
 
-This is a sample application I used to poke into [Blazor](https://blazor.net/) and catch up with [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/). As expected, basic CRUD with Blazor felt straight forward. On the other hand, I spend some time digging into [Azure DevOps](https://azure.microsoft.com/en-us/services/devops) in order to setup a decent cloud CI/CD pipeline for this project. Scott Hanselman has a nice blog post on [seting up a build/deploy/test pipeline for an ASP.NET Core applcation in one hour](https://www.hanselman.com/blog/AzureDevOpsContinuousBuildDeployTestWithASPNETCore22PreviewInOneHour.aspx). My goal here was to setup a similar pipeline but using [Docker](https://www.docker.com/) and add the stage Scott didn't figgure out for running my Selenium tests.
+This is a sample application I used to poke into [Blazor](https://blazor.net/) and catch up with [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/). As expected, basic CRUD with Blazor felt straight forward. On the other hand, I spend some time digging into [Azure DevOps](https://azure.microsoft.com/en-us/services/devops) in order to setup a decent cloud CI/CD pipeline for this project. [Scott Hanselman](https://www.hanselman.com/) has a nice blog post on [setting up a build/deploy/test pipeline for an ASP.NET Core applcation in one hour](https://www.hanselman.com/blog/AzureDevOpsContinuousBuildDeployTestWithASPNETCore22PreviewInOneHour.aspx). My goal here was to setup a similar pipeline but using [Docker](https://www.docker.com/) and add the stage Scott didn't figgure out how to solve for running my Selenium tests.
 
-The application is accessible [here](https://ebikesshopserver.azurewebsites.net/) and the CI/CD pipeline dashboard [here](https://dev.azure.com/costinmorariu/BlazorInAction/_dashboards/dashboard/a235a86e-f670-4789-8d22-1a35dcb022c2?fullScreen=true).
-
-To run it locally (on Windows or Mac), clone the [GitHub repository](https://github.com/stonemonkey/BlazorInAction), build and debug in [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) (15.8.0 or higher). By default it's set to start in IISExpress.
+To run the code locally (on Windows or Mac), clone the [GitHub repository](https://github.com/stonemonkey/BlazorInAction), build and debug in [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) (15.8.0 or higher). By default it's set to start in IISExpress.
 
 ## Goal #1:
 Build a simple application with [Blazor](https://blazor.net/). At the time of writing, [Blazor](https://github.com/aspnet/Blazor) is an experimental .NET web framework (not ready yet to be used in production applications). Still, it looks very promissing, reason why I want to give it a try. The cool part with this framework is that it runs in the browser with [WebAssembly](https://webassembly.org/) and uses C#/[Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-2.1) to render HTML. Visual Studio Project templates for Blazor includes [Bootstrap 3](https://getbootstrap.com/docs/3.3/getting-started/).
@@ -37,7 +35,11 @@ From [Elephant Carpaccio exercise](http://alistair.cockburn.us/Elephant+Carpacci
 *   (nice to have) Add a page for visualizing/adding/removing state taxes.
 
 ### Outcome
-[E-BikeShop](https://github.com/stonemonkey/BlazorInAction) is an application illustrating how a SOA implementation of the [Elephant Carpaccio exercise](http://alistair.cockburn.us/Elephant+Carpaccio+exercise) can look like with [Blazor](https://blazor.net/) and [ASP.NET Web API](https://www.asp.net/web-api).
+
+The application is accessible [here](https://ebikesshopserver.azurewebsites.net/).
+![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/ebikeshop_retailcalculatorpage.png "E-BikesShop Retail calculator")
+
+[BlazorInAction GitHub repository](https://github.com/stonemonkey/BlazorInAction) contains the sources for a simple SOA implementation of the [Elephant Carpaccio exercise](http://alistair.cockburn.us/Elephant+Carpaccio+exercise) with [Blazor](https://blazor.net/) and [ASP.NET Web API](https://www.asp.net/web-api).
 
 The solution contains the following modules/projects:
 *   EBikesShop.Server - hosts the Client and implements an HTTP API for taxes CRUD.
@@ -217,19 +219,19 @@ In Azure Pipelines deployments are handled within the release jobs. I can start 
 
 ![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_deploymenttemplate.png "Deployment template")
 
-I rename the stage to `Deploy` and click on `1 job, 1 task' link to edit job and task details.
+I rename the stage to `Deploy` and click on `1 job, 1 task` link to edit job and task details.
 
 ![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_deploymentstage.png "Deployment template")
 
-Now the page asks me to fill some parameters that will be shared among all the tasks of the pipeline. I just skip this by selecting `Unlink all` and confirming.
+Now the page asks me to fill some parameters that will be shared among all the tasks of the pipeline. I just skip this by selecting `Unlink all` and confirming the operation.
 
 Then I select `Deploy Azure App Service` task and fill the following fields:
-*   Version dropdown: 4.* (preview)
+*   Version dropdown: `4.* (preview)`
 *   Display name input: `Deploy EBikesShopServer image`
-*   Azure subscription dropdown: `BlazorInActionConnection`, this is the connection I added in a previous section for being able to push stuff to my Azure account Resource Manager.
+*   Azure subscription dropdown: `BlazorInActionConnection`, this is the connection I added in a previous section for being able to push Docker image with Azure Resource Manager.
 *   App Service type dropdown: `Web App for Containers (Linux)`
 *   App Service name dropdown: `EBikesShopServer`, this is the Azure App Service I added up in one of the first sections.
-*   Registry or Namespace input: `ebikesshopserver.azurecr.io`, this is the unique name of the Azure Registry Container configured up in one of the first sections
+*   Registry or Namespace input: `ebikesshopserver.azurecr.io`, this is the unique name of the Azure Registry Container configured up in one of the first sections.
 *   Image input: `stonemonkey/blazorinaction`, this is the name of the repository where the images are stored.
 *   Startup command input: `dotnet EBikesShop.Server.dll`
 
@@ -237,11 +239,37 @@ Then I select `Deploy Azure App Service` task and fill the following fields:
 
 At this moment the pipeline looks like this:
 
-![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_deploymentpipeline.png "Pipeline")
+![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_deploymentpipeline.png "Pipeline with Deploy stage")
 
-And I can manually start a build and a deploy by pressing `+ Release` button in the top right corner of the page or I can push into master branch of my repository which will triggered automatically the build and deploy. 
+And I can manually start a build and a deploy by pressing `+ Release` button in the top right corner of the page or I can push into master branch of my repository which will trigger automatically the build and deploy tasks. 
 
 ### Create Azure DevOps Release QA Stage
 
-tbd
+Now I want to add a new stage to the pipeline which will run my Selenium acceptance tests.
 
+In the Stages box I select the Deploy stage and click `+ Add` followed by `+ New stage`. Then I click on the `Empty job` link and rename the stage to `Run QA`. Again, I click on the `1 job, 0 tasks` link and select the `Agent job` job. Then I rename it to `Run Acceptance tests job` and make sure Agent pool is set to `Hosted VS2017`. This will run my tasks in an environment containing (among other stuff) Visual Studio 2017 Build Tools and Selenium Chrome driver which are needed to run my acceptance tests.
+
+![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_runqajob.png "Run QA job")
+
+I press `+` button on the job, add `.NET Core` task and fill the fieds:
+*   Display name input: `dotnet test`
+*   Command dropdown: `test`
+*   Path to project(s): `stonemonkey.BlazorInAction\Ui.Web.Tests\EBikesShop.Ui.Web.Tests\EBikesShop.Ui.Web.Tests.csproj`, I only have one test project for the moment.
+*   Arguments: `-c Release`, although the task will not rebuild the project, I need to specify the configuration so that `dotnet test` command picks the right already buid assemblies.
+*   Check `Publish test results and code coverage` checkbox.
+
+![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_runqatesttask.png "Run QA test task")
+
+For debugging purpose I used a `Command Line Script` task to print in the log console certain things like content of folder for example. This kind of task can pe placed before nad/or after any other task to check its input or output.
+
+![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_runqadebugtask.png "Run QA Debug task")
+
+The pipeline looks like this now:
+
+![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_runqapipeline.png "Pipeline with Run QA stage")
+
+### Outcome
+
+The CI/CD pipeline dashboard is accessible [here](https://dev.azure.com/costinmorariu/BlazorInAction/_dashboards/dashboard/a235a86e-f670-4789-8d22-1a35dcb022c2?fullScreen=true).
+
+![alt text](https://github.com/stonemonkey/BlazorInAction/blob/master/Images/devops_dashboard.png "Pipeline Overview dashboard")
