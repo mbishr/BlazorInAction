@@ -29,6 +29,11 @@ namespace EBikesShop.Ui.Web.Tests.Acceptance
             _driver.Quit();
         }
 
+        internal static AppMenuRunner CreateAppMenuRunner()
+        {
+            return new AppMenuRunner(_driver, _settings);
+        }
+
         internal static RetailCalculatorPageRunner CreateRetailCalculatorPageRunner()
         {
             return new RetailCalculatorPageRunner(_driver, _settings);
