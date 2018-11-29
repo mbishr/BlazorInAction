@@ -29,6 +29,8 @@ namespace EBikesShop.Ui.Web.Tests.Acceptance
         {
             _driver.FindElement(By.XPath("//*[@id='retailCalculatorNavLink']"))
                 .Click();
+
+            _busyIndicatorLocator.WaitToBecomeInvisible(_driver);
         }    
 
         internal bool ShowsRetailCalculatorPageContent()
@@ -42,6 +44,8 @@ namespace EBikesShop.Ui.Web.Tests.Acceptance
         {
             _driver.FindElement(By.XPath("//*[@id='stateTaxesNavLink']"))
                 .Click();
+                
+            _busyIndicatorLocator.WaitToBecomeInvisible(_driver);            
         }
         
         internal bool ShowsStateTaxesPageContent()
