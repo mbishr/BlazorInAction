@@ -1,10 +1,10 @@
 using EBikesShop.Shared;
-using EBikesShop.Ui.Web.Tests.Selenium;
+using EBikesShop.Ui.Web.Automation.Selenium;
 using OpenQA.Selenium;
 
-namespace EBikesShop.Ui.Web.Tests.Runners
+namespace EBikesShop.Ui.Web.Automation.Runners
 {
-    internal class AppMenuRunner
+    public class AppMenuRunner
     {
         // TODO: extract busy indicator as a separate control 
         private By _busyIndicatorLocator = By.XPath("//*[text()='Loading...']");
@@ -18,14 +18,14 @@ namespace EBikesShop.Ui.Web.Tests.Runners
             _settings = appSettings;
         }
 
-        internal void OpenDefaultPage()
+        public void OpenDefaultPage()
         {
             _driver.Url = $"{_settings.BaseUrl}";
 
             _busyIndicatorLocator.WaitToBecomeInvisible(_driver);
         }
 
-        internal void ClickRetailCalculatorNavLink()
+        public void ClickRetailCalculatorNavLink()
         {
             _driver.FindElement(By.XPath("//*[@id='retailCalculatorNavLink']"))
                 .Click();
@@ -33,14 +33,14 @@ namespace EBikesShop.Ui.Web.Tests.Runners
             _busyIndicatorLocator.WaitToBecomeInvisible(_driver);
         }    
 
-        internal bool ShowsRetailCalculatorPageContent()
+        public bool ShowsRetailCalculatorPageContent()
         {
             var element = _driver.FindElement(By.XPath("//div[@id='retailCalculatorPage_container']"));
 
             return element != null;
         }
 
-        internal void ClickStateTaxesNavLink()
+        public void ClickStateTaxesNavLink()
         {
             _driver.FindElement(By.XPath("//*[@id='stateTaxesNavLink']"))
                 .Click();
@@ -48,7 +48,7 @@ namespace EBikesShop.Ui.Web.Tests.Runners
             _busyIndicatorLocator.WaitToBecomeInvisible(_driver);            
         }
         
-        internal bool ShowsStateTaxesPageContent()
+        public bool ShowsStateTaxesPageContent()
         {
             var element = _driver.FindElement(By.XPath("//table[@id='stateTaxes_table']"));
 

@@ -1,4 +1,4 @@
-using EBikesShop.Ui.Web.Tests.Runners;
+using EBikesShop.Ui.Web.Automation.Runners;
 using NUnit.Framework;
 
 namespace EBikesShop.Ui.Web.Tests.Acceptance

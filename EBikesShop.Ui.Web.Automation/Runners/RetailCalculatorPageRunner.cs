@@ -1,11 +1,11 @@
 using EBikesShop.Shared;
-using EBikesShop.Ui.Web.Tests.Selenium;
+using EBikesShop.Ui.Web.Automation.Selenium;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace EBikesShop.Ui.Web.Tests.Runners
+namespace EBikesShop.Ui.Web.Automation.Runners
 {
-    internal class RetailCalculatorPageRunner
+    public class RetailCalculatorPageRunner
     {       
         // TODO: extract busy indicator as a separate control 
         private By _busyIndicatorLocator = By.XPath("//*[text()='Loading...']");
@@ -19,14 +19,14 @@ namespace EBikesShop.Ui.Web.Tests.Runners
             _settings = appSettings;
         }
 
-        internal void OpenRetailCalculatorPage()
+        public void OpenRetailCalculatorPage()
         {
             _driver.Url = $"{_settings.BaseUrl}/retailcalculator";
 
             _busyIndicatorLocator.WaitToBecomeInvisible(_driver);
         }
 
-        internal void SetRetailCalculatorInput(int items, decimal pricePerItem, string stateCode)
+        public void SetRetailCalculatorInput(int items, decimal pricePerItem, string stateCode)
         {
             SetRetailCalculatorItemsInput(items.ToString());
             SetRetailCalculatorPricePerItemInput(pricePerItem.ToString());
@@ -54,13 +54,13 @@ namespace EBikesShop.Ui.Web.Tests.Runners
             select.SelectByText(stateCode);
         }
 
-        internal void ClickRetailCalculatorCalculateTotalPrice()
+        public void ClickRetailCalculatorCalculateTotalPrice()
         {
             IWebElement element = _driver.FindElement(By.Id("retailCalculator_calculateTotalPrice_button"));
             element.Click();
         }
 
-        internal decimal GetRetailCalculatorTotalPrice()
+        public decimal GetRetailCalculatorTotalPrice()
         {
             IWebElement element = _driver.FindElement(By.Id("retailCalculator_totalPrice_text"));
             string text = element.Text;

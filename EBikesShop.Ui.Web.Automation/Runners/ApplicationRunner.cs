@@ -4,15 +4,15 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.IO;
 
-namespace EBikesShop.Ui.Web.Tests.Runners
+namespace EBikesShop.Ui.Web.Automation.Runners
 {
-    internal class ApplicationRunner
+    public class ApplicationRunner
     {
         private static readonly AppSettings _settings = new AppSettings();
 
         private static IWebDriver _driver;
 
-        internal static void StartBrowser()
+        public static void StartBrowser()
         {
             // Azure DevOps Hosted VS2017 environment has this variable set
             var baseDir = Environment.GetEnvironmentVariable("ChromeWebDriver");
@@ -24,22 +24,22 @@ namespace EBikesShop.Ui.Web.Tests.Runners
             _driver = new ChromeDriver(baseDir);
         }
 
-        internal static void CloseBrowser()
+        public static void CloseBrowser()
         {
             _driver.Quit();
         }
 
-        internal static AppMenuRunner CreateAppMenuRunner()
+        public static AppMenuRunner CreateAppMenuRunner()
         {
             return new AppMenuRunner(_driver, _settings);
         }
 
-        internal static RetailCalculatorPageRunner CreateRetailCalculatorPageRunner()
+        public static RetailCalculatorPageRunner CreateRetailCalculatorPageRunner()
         {
             return new RetailCalculatorPageRunner(_driver, _settings);
         }
 
-        internal static StateTaxesPageRunner CreateStateTaxPageRunner()
+        public static StateTaxesPageRunner CreateStateTaxPageRunner()
         {
             return new StateTaxesPageRunner(_driver, _settings);
         }

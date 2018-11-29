@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EBikesShop.Ui.Web.Automation", "EBikesShop.Ui.Web.Automation\EBikesShop.Ui.Web.Automation.csproj", "{F66589F4-B4DA-44D0-987E-4E8DBEF09E99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{74918344-D469-400A-9D19-2B5C874C2821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74918344-D469-400A-9D19-2B5C874C2821}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74918344-D469-400A-9D19-2B5C874C2821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F66589F4-B4DA-44D0-987E-4E8DBEF09E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F66589F4-B4DA-44D0-987E-4E8DBEF09E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F66589F4-B4DA-44D0-987E-4E8DBEF09E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F66589F4-B4DA-44D0-987E-4E8DBEF09E99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

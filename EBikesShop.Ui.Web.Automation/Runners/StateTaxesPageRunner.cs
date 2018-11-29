@@ -1,10 +1,10 @@
 using EBikesShop.Shared;
-using EBikesShop.Ui.Web.Tests.Selenium;
+using EBikesShop.Ui.Web.Automation.Selenium;
 using OpenQA.Selenium;
 
-namespace EBikesShop.Ui.Web.Tests.Runners
+namespace EBikesShop.Ui.Web.Automation.Runners
 {
-    internal class StateTaxesPageRunner
+    public class StateTaxesPageRunner
     {
         // TODO: extract busy indicator as a separate control 
         private By _busyIndicatorLocator = By.XPath("//*[text()='Loading...']");
@@ -18,14 +18,14 @@ namespace EBikesShop.Ui.Web.Tests.Runners
             _settings = appSettings;
         }
 
-        internal void OpenStateTaxesPage()
+        public void OpenStateTaxesPage()
         {
             _driver.Url = $"{_settings.BaseUrl}/statetaxes";
 
             _busyIndicatorLocator.WaitToBecomeInvisible(_driver);
         }
 
-        internal bool ShowsStateTax(string stateCode)
+        public bool ShowsStateTax(string stateCode)
         {
             var row = _driver.FindElement(By.XPath($"//table[@id='stateTaxes_table']//tr[td[text()='{stateCode}']]"));
             
