@@ -51,6 +51,18 @@ namespace EBikesShop.Ui.Web.Tests.Acceptance
             element.SendKeys(items);
         }
 
+        public static bool ShowsStateTax(string stateCode)
+        {
+            Thread.Sleep(1000);
+            var row = _driver.FindElement(By.XPath($"//table[@id='stateTaxes_table']//tr[td[text()='{stateCode}']]"));
+            return row != null;
+        }
+
+        public static void OpenStateTaxesPage()
+        {
+            _driver.Url = $"{_settings.BaseUrl}/statetaxes";
+        }
+
         private static void SetRetailCalculatorPricePerItemInput(string pricePerItem)
         {
             IWebElement element = _driver.FindElement(By.Id("retailCalculator_pricePerItem_input"));

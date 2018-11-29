@@ -42,5 +42,13 @@ namespace EBikesShop.Ui.Web.Tests.Acceptance
 
             Assert.AreEqual(expectedTotalPrice, ApplicationRunner.GetRetailCalculatorTotalPrice());
         }
+
+        [TestCase("UT")]
+        public void Can_list_default_state_taxes(string stateCode)
+        {
+            ApplicationRunner.OpenStateTaxesPage();
+
+            Assert.IsTrue(ApplicationRunner.ShowsStateTax(stateCode));
+        }
     }
 }
