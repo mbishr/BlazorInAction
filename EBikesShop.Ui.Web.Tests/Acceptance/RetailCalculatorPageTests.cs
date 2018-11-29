@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using System.Threading;
+﻿using EBikesShop.Ui.Web.Tests.Runners;
+using NUnit.Framework;
 
 namespace EBikesShop.Ui.Web.Tests.Acceptance
 {

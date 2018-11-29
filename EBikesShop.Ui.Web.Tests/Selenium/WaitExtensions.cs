@@ -2,7 +2,7 @@
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
 
-namespace EBikesShop.Ui.Web.Tests
+namespace EBikesShop.Ui.Web.Tests.Selenium
 {
     public static class WaitExtensions
     {

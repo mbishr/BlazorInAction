@@ -1,8 +1,8 @@
-using System;
 using EBikesShop.Shared;
+using EBikesShop.Ui.Web.Tests.Selenium;
 using OpenQA.Selenium;
 
-namespace EBikesShop.Ui.Web.Tests.Acceptance
+namespace EBikesShop.Ui.Web.Tests.Runners
 {
     internal class AppMenuRunner
     {

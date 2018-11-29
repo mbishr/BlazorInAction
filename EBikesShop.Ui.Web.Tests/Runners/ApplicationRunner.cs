@@ -4,7 +4,7 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.IO;
 
-namespace EBikesShop.Ui.Web.Tests.Acceptance
+namespace EBikesShop.Ui.Web.Tests.Runners
 {
     internal class ApplicationRunner
     {

@@ -1,11 +1,8 @@
 using EBikesShop.Shared;
+using EBikesShop.Ui.Web.Tests.Selenium;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System;
-using System.Linq;
-using System.Threading;
 
-namespace EBikesShop.Ui.Web.Tests.Acceptance
+namespace EBikesShop.Ui.Web.Tests.Runners
 {
     internal class StateTaxesPageRunner
     {
