@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using Dapper;
 using EBikesShop.Shared.Taxes;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,20 +12,22 @@ namespace EBikeShop.Server.Controllers
     [ApiController]
     public class TaxesController : ControllerBase
     {
-        private static readonly IList<StateTaxDto> _taxes = new List<StateTaxDto>
+        private readonly IDbSession _dbSession;
+
+        public TaxesController(IDbSession dbSession)
         {
-            new StateTaxDto{ StateCode = "UT", StateName="Utah", TaxRate = 6.85m },
-            new StateTaxDto{ StateCode = "NV", StateName="Nevada", TaxRate = 8.00m },
-            new StateTaxDto{ StateCode = "TX", StateName="Texas", TaxRate = 6.25m },
-            new StateTaxDto{ StateCode = "AL", StateName="Alabama", TaxRate = 4.00m },
-            new StateTaxDto{ StateCode = "CA", StateName="California", TaxRate = 8.25m },
-        };
+            _dbSession = dbSession;
+        }
 
         // GET api/taxes
         [HttpGet]
-        public ActionResult GetStateTaxes()
+        public async Task<ActionResult> GetStateTaxes()
         {
-            return new JsonResult(_taxes);
+            using (var dbConnection = _dbSession.GetConnection())
+            {
+                var taxes = await dbConnection.QueryAsync<StateTaxDto>("SELECT * FROM state_tax");
+                return new JsonResult(taxes.ToList());
+            }
         }
     }
 }
