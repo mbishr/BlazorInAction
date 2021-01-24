@@ -5,11 +5,15 @@
 
 pool:
   vmImage: 'Ubuntu 16.04'
+trigger:
+  branches:
+    include:
+      - master
 
 variables:
   buildConfiguration: 'Release'
-  repositoryName: 'stonemonkey/blazorinaction'
-  azureContainerRegistry: 'ebikesshopserver.azurecr.io'
+  repositoryName: 'sample/siemens-demo'
+  azureContainerRegistry: 'siemensdemoacr.azurecr.io'
 
 steps:
 - bash: |
