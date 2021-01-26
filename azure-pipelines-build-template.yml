@@ -1,0 +1,50 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+trigger:
+  branches:
+    include:
+      - master
+
+variables:
+  buildConfiguration: 'Release'
+  repositoryName: 'sample/siemens-demo'
+  azureContainerRegistry: 'siemensdemoacr.azurecr.io'
+
+steps:
+- bash: |
+    docker build -f build.dockerfile -t $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) .
+    docker run --name ebikesshop --rm -d $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId)
+    docker cp ebikesshop:src/EBikesShop.Ui.Web.Tests.Unit/TestResults $(System.DefaultWorkingDirectory)
+    docker cp ebikesshop:src/EBikesShop.Ui.Web.Tests $(System.DefaultWorkingDirectory)
+    docker cp ebikesshop:src/EBikesShop.Server/out $(System.DefaultWorkingDirectory)
+    docker stop ebikesshop
+  displayName: 'Build Docker image and run unit tests'
+
+- task: PublishTestResults@2
+  displayName: Publish unit test results
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+
+- task: Docker@1
+  displayName: Login to the Azure Container Registry
+  inputs:
+    azureSubscriptionEndpoint: 'BlazorInActionConnection'
+    azureContainerRegistry: $(azureContainerRegistry)
+    command: login
+
+- bash: |
+    docker build -f production.dockerfile -t $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) .
+    docker push $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) 
+  displayName: Push Docker image into the Azure Container Registry
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish working directory as artifacts
+  inputs:
+    pathtoPublish: '$(System.DefaultWorkingDirectory)'
+    artifactName: Ui.Web.Tests
