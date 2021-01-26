@@ -2,103 +2,49 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-stages:
-  - stage: CI Pipeline
-    pool:
-      vmImage: 'Ubuntu 16.04'
-    trigger:
-      branches:
-        include:
-          - master
 
-    variables:
-      buildConfiguration: 'Release'
-      repositoryName: 'sample/siemens-demo'
-      azureContainerRegistry: 'siemensdemoacr.azurecr.io'
+pool:
+  vmImage: 'Ubuntu 16.04'
+trigger:
+  branches:
+    include:
+      - master
 
-    steps:
-    - bash: |
-        docker build -f build.dockerfile -t $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) .
-        docker run --name ebikesshop --rm -d $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId)
-        docker cp ebikesshop:src/EBikesShop.Ui.Web.Tests.Unit/TestResults $(System.DefaultWorkingDirectory)
-        docker cp ebikesshop:src/EBikesShop.Ui.Web.Tests $(System.DefaultWorkingDirectory)
-        docker cp ebikesshop:src/EBikesShop.Server/out $(System.DefaultWorkingDirectory)
-        docker stop ebikesshop
-      displayName: 'Build Docker image and run unit tests'
+variables:
+  buildConfiguration: 'Release'
+  repositoryName: 'sample/siemens-demo'
+  azureContainerRegistry: 'siemensdemoacr.azurecr.io'
 
-    - task: PublishTestResults@2
-      displayName: Publish unit test results
-      inputs:
-        testRunner: VSTest
-        testResultsFiles: '**/*.trx'
+steps:
+- bash: |
+    docker build -f build.dockerfile -t $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) .
+    docker run --name ebikesshop --rm -d $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId)
+    docker cp ebikesshop:src/EBikesShop.Ui.Web.Tests.Unit/TestResults $(System.DefaultWorkingDirectory)
+    docker cp ebikesshop:src/EBikesShop.Ui.Web.Tests $(System.DefaultWorkingDirectory)
+    docker cp ebikesshop:src/EBikesShop.Server/out $(System.DefaultWorkingDirectory)
+    docker stop ebikesshop
+  displayName: 'Build Docker image and run unit tests'
 
-    - task: Docker@1
-      displayName: Login to the Azure Container Registry
-      inputs:
-        azureSubscriptionEndpoint: 'BlazorInActionConnection'
-        azureContainerRegistry: $(azureContainerRegistry)
-        command: login
+- task: PublishTestResults@2
+  displayName: Publish unit test results
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
 
-    - bash: |
-        docker build -f production.dockerfile -t $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) .
-        docker push $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) 
-      displayName: Push Docker image into the Azure Container Registry
+- task: Docker@1
+  displayName: Login to the Azure Container Registry
+  inputs:
+    azureSubscriptionEndpoint: 'BlazorInActionConnection'
+    azureContainerRegistry: $(azureContainerRegistry)
+    command: login
 
-    - task: PublishBuildArtifacts@1
-      displayName: Publish working directory as artifacts
-      inputs:
-        pathtoPublish: '$(System.DefaultWorkingDirectory)'
-        artifactName: Ui.Web.Tests
+- bash: |
+    docker build -f production.dockerfile -t $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) .
+    docker push $(azureContainerRegistry)/$(repositoryName):$(Build.BuildId) 
+  displayName: Push Docker image into the Azure Container Registry
 
-
-
-  - stage: Security Testing
-    dependsOn: CI Pipeline
-
-    pool:
-      vmImage: 'Ubuntu 16.04'
-      demands: java
-      
-    variables:
-      buildConfiguration: 'Release'
-      repositoryName: 'sample/siemens-demo'
-      azureContainerRegistry: 'siemensdemoacr.azurecr.io'
-
-    steps:
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk 2.1.x'
-      inputs:
-        version: 2.1.x
-
-    - task: DotNetCoreCLI@2
-      displayName: Restore
-      inputs:
-        command: restore
-        projects: '$(Parameters.RestoreBuildProjects)'
-
-    - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
-      displayName: 'Prepare analysis on SonarCloud'
-      inputs:
-        SonarCloud: 'Sonar sc'
-        organization: mahmoudbishr
-        projectKey: 'demo-proj-medo'
-
-    - task: DotNetCoreCLI@2
-      displayName: Build
-      inputs:
-        projects: '$(Parameters.RestoreBuildProjects)'
-        arguments: '--configuration $(BuildConfiguration)'
-
-    - task: DotNetCoreCLI@2
-      displayName: Test
-      inputs:
-        command: test
-        projects: '$(Parameters.TestProjects)'
-        arguments: '--configuration $(BuildConfiguration)'
-      enabled: false
-
-    - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
-      displayName: 'Run Code Analysis'
-
-    - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
-      displayName: 'Publish Quality Gate Result'
+- task: PublishBuildArtifacts@1
+  displayName: Publish working directory as artifacts
+  inputs:
+    pathtoPublish: '$(System.DefaultWorkingDirectory)'
+    artifactName: Ui.Web.Tests
