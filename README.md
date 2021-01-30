@@ -59,7 +59,7 @@
 
 13- I create new pipeline for security and code analysis. I use SonarCloud to demonstrate this step
 
-14- To strart using SonarCloud with Azure DevOps, I do the following:
+14- To start using SonarCloud with Azure DevOps, I do the following:
 
 - Create new access token in Azure DevOps with *code Read & write* permissions to use it with SonarCloud
 
@@ -93,23 +93,23 @@
 
 ![image](https://user-images.githubusercontent.com/26122554/106349114-e08eab80-62d3-11eb-838c-fb719bc3bd08.png)
 
-18- The first stage create is for Acceptance Testing. After it runs successufully,  I select it to check test results
+18- The first stage created is for Acceptance Testing. After it runs successufully,  I select it to check test results
 
 ![image](https://user-images.githubusercontent.com/26122554/106349146-4a0eba00-62d4-11eb-8ce4-79d3694258bb.png)
 
 20- Next stage is *Staging* which runs automatically after *Acceptance Testing* stage ends successfully
 
-21- This stage contains job which deploy artifactes to App service
+21- This stage contains job which deploy application to Azure App service with Containers
 
 22- I create new Azure Azure Service Plan and App service with containers to host the web app
 
-23- I create *a deployment slot* in Azue App Service for Staging before production
+23- I create *a deployment slot* in Azue App Service for Staging before Production
 
 ![image](https://user-images.githubusercontent.com/26122554/106349284-7b3bba00-62d5-11eb-95fa-708205e0fa7a.png)
 
 24- After *Staging* stage in release pipeline runs successfully, app is deployed to [Staging URL](https://siemens-demo-app-staging.azurewebsites.net/)
  
-25- A Pre-deployment approval is enabled which trigger successfull *Staging* stage and automatic mail is sent to me with approval link
+25- A Pre-deployment approval is enabled which trigger successfull *Staging* stage and send automatic mail is to me with approval link
 
 26- After I press link in approval mail and press *approve*, production stage starts and deploy app to production
 
