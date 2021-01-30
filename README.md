@@ -95,31 +95,30 @@
 
 18- The first stage created is for Acceptance Testing. After it runs successufully,  I select it to check test results
 
-![image](https://user-images.githubusercontent.com/26122554/106349146-4a0eba00-62d4-11eb-8ce4-79d3694258bb.png)
 
-20- Next stage is *Staging* which runs automatically after *Acceptance Testing* stage ends successfully
+19- Next stage is *Staging* which runs automatically after *Acceptance Testing* stage ends successfully
 
-21- This stage contains job which deploy application to Azure App service with Containers
+20- This stage contains job which deploy application to Azure App service with Containers
 
-22- I create new Azure Azure Service Plan and App service with containers to host the web app
+21- I create new Azure Azure Service Plan and App service with containers to host the web app
 
-23- I create *a deployment slot* in Azue App Service for Staging before Production
+22- I create *a deployment slot* in Azue App Service for Staging before Production
 
 ![image](https://user-images.githubusercontent.com/26122554/106349284-7b3bba00-62d5-11eb-95fa-708205e0fa7a.png)
 
-24- After *Staging* stage in release pipeline runs successfully, app is deployed to [Staging URL](https://siemens-demo-app-staging.azurewebsites.net/)
+23- After *Staging* stage in release pipeline runs successfully, app is deployed to [Staging URL](https://siemens-demo-app-staging.azurewebsites.net/)
  
-25- A Pre-deployment approval is enabled which trigger successfull *Staging* stage and send automatic mail is to me with approval link
+24- A Pre-deployment approval is enabled which trigger successfull *Staging* stage and send automatic mail is to me with approval link
 
-26- After I press link in approval mail and press *approve*, production stage starts and deploy app to production
+25- After I press link in approval mail and press *approve*, production stage starts and deploy app to production
 
-
+![image](https://user-images.githubusercontent.com/26122554/106358716-84994680-6316-11eb-9c84-1ddacbd8e6a2.png)
 
 ![image](https://user-images.githubusercontent.com/26122554/106349509-ff427180-62d6-11eb-9e68-553d43b8d40c.png)
 
-27- After *Production* stage in release pipeline runs successfully, app is deployed to [Production URL](https://siemens-demo-app.azurewebsites.net/)
+26- After *Production* stage in release pipeline runs successfully, app is deployed to [Production URL](https://siemens-demo-app.azurewebsites.net/)
 
-28- In Azure portal, I create a dashboard to monitor app metrics and performance
+27- In Azure portal, I create a dashboard to monitor app metrics and performance
 
 ![image](https://user-images.githubusercontent.com/26122554/106349752-3a45a480-62d9-11eb-92d9-f4a495ab9da4.png)
 
