@@ -95,6 +95,7 @@
 
 18- The first stage created is for Acceptance Testing. After it runs successufully,  I select it to check test results
 
+![image](https://user-images.githubusercontent.com/26122554/106358783-f70a2680-6316-11eb-9a65-325f3e8f92fc.png)
 
 19- Next stage is *Staging* which runs automatically after *Acceptance Testing* stage ends successfully
 
